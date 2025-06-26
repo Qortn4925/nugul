@@ -28,9 +28,9 @@ JWT 기반 인증과 WebSocket 기반 채팅, 등을 적용했습니다.
 | 이름   | 역할 | GitHub |
 |--------|------|--------|
 | 김용수 | • 채팅 CRUD (실시간 채팅)<br>• 지도 (카카오 API) - 카테고리별 검색, 장소 검색 | [github.com/Qortn4925](https://github.com/Qortn4925) |
-| 김수민 | • 관리자 - 회원 관리, 문의 관리<br>• 1:1 문의 CRUD<br>• 마이페이지 (가계부)<br>• 결제 (카카오페이) | [github.com/your-id](https://github.com/your-id) |
-| 김민경 | • 메인페이지<br>• 상품 CRUD, 찜 CRUD<br>• 소셜 로그인 (카카오, 네이버)<br>• 후기 CRUD<br>• 마이페이지 (구매/판매/찜/후기 내역 조회) | [github.com/your-id](https://github.com/your-id) |
-| 이석민 | • 회원가입, 로그인<br>• 게시판 CRUD, 댓글 CRUD<br>• 마이페이지 (회원 정보 조회/수정) | [github.com/your-id](https://github.com/your-id) |
+| 김수민 | • 관리자 - 회원 관리, 문의 관리<br>• 1:1 문의 CRUD<br>• 마이페이지 (가계부)<br>• 결제 (카카오페이) | [github.com/soomni01](https://github.com/soomni01) |
+| 김민경 | • 메인페이지<br>• 상품 CRUD, 찜 CRUD<br>• 소셜 로그인 (카카오, 네이버)<br>• 후기 CRUD<br>• 마이페이지 (구매/판매/찜/후기 내역 조회) | [github.com/keaimk](https://github.com/keaimk) |
+| 이석민 | • 회원가입, 로그인<br>• 게시판 CRUD, 댓글 CRUD<br>• 마이페이지 (회원 정보 조회/수정) | [github.com/seokminlee24](https://github.com/seokminlee24) |
 
 <br/>
 
@@ -58,8 +58,6 @@ JWT 기반 인증과 WebSocket 기반 채팅, 등을 적용했습니다.
 
 ### ➕ 상품 등록
 
-- 제목, 설명, 가격, 사진을 입력하여 새 상품을 등록할 수 있습니다.
-- 등록된 상품은 실시간으로 메인 목록에 반영됩니다.
 ![상품리스트 보는 페이지](https://github.com/user-attachments/assets/21718913-400c-4bfa-b202-834a01ef8736)
 ![상품 등록창](https://github.com/user-attachments/assets/9a8d59ed-043e-490e-ad7e-512c05de13df)
 ![등록상품](https://github.com/user-attachments/assets/e94dccdd-a9b5-41b4-b3c3-f3e8eadeabe1)
@@ -77,10 +75,15 @@ JWT 기반 인증과 WebSocket 기반 채팅, 등을 적용했습니다.
 
 ### 💬 실시간 채팅
 
-- WebSocket 기반의 실시간 채팅 기능을 제공합니다.
-- 상품별 1:1 채팅방 생성 및 이전 대화 내역 조회가 가능합니다.
+![채팅](https://github.com/user-attachments/assets/b22d80ed-d6ca-47ec-8319-5e64e93d6aca)
+![채팅친 거래방](https://github.com/user-attachments/assets/185146cf-9b42-4287-8bec-d1d4b8903a40)
 
-![chat](https://your-image-url.com/chat.gif)
+![후기 작성창](https://github.com/user-attachments/assets/51c58c58-6dcd-4a92-b6b3-7375556282d6)
+![후기 작성후](https://github.com/user-attachments/assets/3ce3e3ea-7420-4aec-9a31-1e2308aa3c75)
+
+
+![채팅방 gif](https://github.com/user-attachments/assets/e2640909-7f2a-4ba6-a5c2-fb22b252c0c7)
+
 
 ---
 
