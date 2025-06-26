@@ -110,16 +110,13 @@ JWT 기반 인증과 WebSocket 기반 채팅 등을 적용했습니다.
 <summary>💬 <strong>지도</strong></summary>
 
 <p align="center">
- ![지도](https://github.com/user-attachments/assets/ceb42e4d-dbf1-49cd-b7bf-97b4edb8c882)
-
 ![검색 결과 리스트+마커](https://github.com/user-attachments/assets/186ae3b8-cda2-4ed5-8d02-e0c7d77231e0)
 
 ![리스트 혹은, 마커 클릭시](https://github.com/user-attachments/assets/a555f665-e6c1-433c-9cfc-e9fd6d065bb6)
 
-![카테고리 상세](https://github.com/user-attachments/assets/ba1594b8-9bff-49f4-94e5-e4e428a9968c)
-
 ![카테고리 클릭시](https://github.com/user-attachments/assets/15c5f7a9-5b73-41e3-9915-33a3255d2504)
 
+![카테고리 상세](https://github.com/user-attachments/assets/ba1594b8-9bff-49f4-94e5-e4e428a9968c)
 
 </p>
 
@@ -144,13 +141,6 @@ JWT 기반 인증과 WebSocket 기반 채팅 등을 적용했습니다.
 
 - 내가 등록한 상품, 찜한 상품, 채팅 내역 등을 확인할 수 있는 개인 페이지입니다.  
 - 회원 정보 수정 및 탈퇴 기능도 포함되어 있습니다.
-
-<details>
-<summary>👤 <strong>마이페이지</strong></summary>
-
-- 내가 등록한 상품, 찜한 상품, 채팅 내역 등을 확인할 수 있는 개인 페이지입니다.  
-- 회원 정보 수정 및 탈퇴 기능도 포함되어 있습니다.
-
 <p align="center">
   <img src="https://github.com/user-attachments/assets/8d9152c8-d015-4ad5-892a-5b7f7b411ec9" width="600"/><br/>
   <img src="https://github.com/user-attachments/assets/cc921748-39f4-4fe8-ad7f-96a3215040c2" width="600"/><br/>
@@ -160,10 +150,9 @@ JWT 기반 인증과 WebSocket 기반 채팅 등을 적용했습니다.
   <img src="https://github.com/user-attachments/assets/419b4303-fe1d-4f5f-b1d5-504f9ec7b89a" width="600"/><br/>
   <img src="https://github.com/user-attachments/assets/322abc7b-8e4d-490a-ac45-ee09d2ad3251" width="600"/>
 </p>
-
 </details>
 
 
-</details>
+
 
 
