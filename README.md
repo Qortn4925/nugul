@@ -77,9 +77,14 @@ React 컴포넌트 분리 및 상태 관리 최적화를 통해 지도 관련 UI
 <details>
 <summary>🏠 <strong>로그인/회원 가입</strong></summary>
 
+<ul>
+  <li>JWT 인증 방식을 사용하여 로그인/회원가입 처리</li>
+  <li>로그인 후 사용자 역할에 따라 접근 가능한 메뉴가 달라집니다.</li>
+</ul>
+
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/f7f793b7-7627-4ae0-a6ed-16df6d98347b" width="600"/>
-  <img src="https://github.com/user-attachments/assets/4da2caf8-8f6f-4a57-9804-b8110a82e756" width="600"/>
+  <img width="48%" src="https://github.com/user-attachments/assets/f7f793b7-7627-4ae0-a6ed-16df6d98347b" />
+  <img width="48%" src="https://github.com/user-attachments/assets/4da2caf8-8f6f-4a57-9804-b8110a82e756" />
 </p>
 
 </details>
@@ -89,11 +94,16 @@ React 컴포넌트 분리 및 상태 관리 최적화를 통해 지도 관련 UI
 <details>
 <summary>➕ <strong>상품 등록</strong></summary>
 
+<ul>
+  <li>상품 등록 시 이미지 업로드, 카테고리 선택, 가격 등의 정보 입력 가능</li>
+  <li>작성 완료 전 미리보기 기능을 통해 등록 내용을 확인할 수 있습니다.</li>
+</ul>
+
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/21718913-400c-4bfa-b202-834a01ef8736" width="600"/>
-  <img src="https://github.com/user-attachments/assets/9a8d59ed-043e-490e-ad7e-512c05de13df" width="600"/>
-  <img src="https://github.com/user-attachments/assets/e94dccdd-a9b5-41b4-b3c3-f3e8eadeabe1" width="600"/>
-  <img src="https://your-image-url.com/register.gif" width="600"/>
+  <img width="48%" src="https://github.com/user-attachments/assets/21718913-400c-4bfa-b202-834a01ef8736" />
+  <img width="48%" src="https://github.com/user-attachments/assets/9a8d59ed-043e-490e-ad7e-512c05de13df" />
+  <img width="48%" src="https://github.com/user-attachments/assets/e94dccdd-a9b5-41b4-b3c3-f3e8eadeabe1" />
+  <img width="48%" src="https://your-image-url.com/register.gif" />
 </p>
 
 </details>
@@ -103,9 +113,14 @@ React 컴포넌트 분리 및 상태 관리 최적화를 통해 지도 관련 UI
 <details>
 <summary>📝 <strong>게시판</strong></summary>
 
+<ul>
+  <li>사용자들이 자유롭게 글을 작성하고 댓글을 달 수 있는 게시판 기능</li>
+  <li>카테고리별 분류와 최신순 정렬 기능을 제공</li>
+</ul>
+
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/27be9173-7e3c-420d-8672-41ac263c6278" width="600"/>
-  <img src="https://github.com/user-attachments/assets/10f63eb8-634a-4a0d-92e8-510f10213f7f" width="600"/>
+  <img width="48%" src="https://github.com/user-attachments/assets/27be9173-7e3c-420d-8672-41ac263c6278" />
+  <img width="48%" src="https://github.com/user-attachments/assets/10f63eb8-634a-4a0d-92e8-510f10213f7f" />
 </p>
 
 </details>
@@ -115,28 +130,35 @@ React 컴포넌트 분리 및 상태 관리 최적화를 통해 지도 관련 UI
 <details>
 <summary>💬 <strong>실시간 채팅</strong></summary>
 
+<ul>
+  <li>STOMP WebSocket 기반의 실시간 채팅 기능</li>
+  <li>구매자와 판매자 간 1:1 채팅 및 알림 기능 구현</li>
+</ul>
+
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/b22d80ed-d6ca-47ec-8319-5e64e93d6aca" width="600"/>
-  <img src="https://github.com/user-attachments/assets/185146cf-9b42-4287-8bec-d1d4b8903a40" width="600"/>
-  <img src="https://github.com/user-attachments/assets/51c58c58-6dcd-4a92-b6b3-7375556282d6" width="600"/>
-  <img src="https://github.com/user-attachments/assets/3ce3e3ea-7420-4aec-9a31-1e2308aa3c75" width="600"/>
-  <img src="https://github.com/user-attachments/assets/e2640909-7f2a-4ba6-a5c2-fb22b252c0c7" width="600"/>
+  <img width="48%" src="https://github.com/user-attachments/assets/b22d80ed-d6ca-47ec-8319-5e64e93d6aca" />
+  <img width="48%" src="https://github.com/user-attachments/assets/185146cf-9b42-4287-8bec-d1d4b8903a40" />
+  <img width="48%" src="https://github.com/user-attachments/assets/51c58c58-6dcd-4a92-b6b3-7375556282d6" />
+  <img width="48%" src="https://github.com/user-attachments/assets/3ce3e3ea-7420-4aec-9a31-1e2308aa3c75" />
+  <img width="48%" src="https://github.com/user-attachments/assets/e2640909-7f2a-4ba6-a5c2-fb22b252c0c7" />
 </p>
 
 </details>
 
 ---
+
 <details>
-<summary>💬 <strong>지도</strong></summary>
+<summary>🗺️ <strong>지도</strong></summary>
+
+<ul>
+  <li>Kakao Maps API를 이용한 지도 기반 장소 검색 기능</li>
+  <li>리스트 클릭 시 마커와 연동되어 상세 정보 제공</li>
+</ul>
 
 <p align="center">
-
-![리스트 혹은, 마커 클릭시](https://github.com/user-attachments/assets/a555f665-e6c1-433c-9cfc-e9fd6d065bb6)
-
-![카테고리 클릭시](https://github.com/user-attachments/assets/15c5f7a9-5b73-41e3-9915-33a3255d2504)
-
-![카테고리 상세](https://github.com/user-attachments/assets/ba1594b8-9bff-49f4-94e5-e4e428a9968c)
-
+  <img width="48%" src="https://github.com/user-attachments/assets/a555f665-e6c1-433c-9cfc-e9fd6d065bb6" />
+  <img width="48%" src="https://github.com/user-attachments/assets/15c5f7a9-5b73-41e3-9915-33a3255d2504" />
+  <img width="48%" src="https://github.com/user-attachments/assets/ba1594b8-9bff-49f4-94e5-e4e428a9968c" />
 </p>
 
 </details>
@@ -146,9 +168,14 @@ React 컴포넌트 분리 및 상태 관리 최적화를 통해 지도 관련 UI
 <details>
 <summary>📩 <strong>1대1 문의</strong></summary>
 
+<ul>
+  <li>사용자가 운영자에게 직접 문의를 보낼 수 있는 기능</li>
+  <li>운영자는 문의 내역을 확인하고 답변을 작성할 수 있습니다.</li>
+</ul>
+
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/467ddd3a-b274-4689-95d0-f37b4bf6e3ac" width="600"/>
-  <img src="https://github.com/user-attachments/assets/ca77a3f7-f32d-4053-b096-f2e46b4c584a" width="600"/>
+  <img width="48%" src="https://github.com/user-attachments/assets/467ddd3a-b274-4689-95d0-f37b4bf6e3ac" />
+  <img width="48%" src="https://github.com/user-attachments/assets/ca77a3f7-f32d-4053-b096-f2e46b4c584a" />
 </p>
 
 </details>
@@ -158,18 +185,23 @@ React 컴포넌트 분리 및 상태 관리 최적화를 통해 지도 관련 UI
 <details>
 <summary>👤 <strong>마이페이지</strong></summary>
 
-- 내가 등록한 상품, 찜한 상품, 채팅 내역 등을 확인할 수 있는 개인 페이지입니다.  
-- 회원 정보 수정 및 탈퇴 기능도 포함되어 있습니다.
+<ul>
+  <li>내가 등록한 상품, 찜한 상품, 채팅 내역 등을 확인할 수 있는 개인화 페이지</li>
+  <li>회원 정보 수정, 탈퇴 기능도 제공합니다.</li>
+</ul>
+
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/8d9152c8-d015-4ad5-892a-5b7f7b411ec9" width="600"/><br/>
-  <img src="https://github.com/user-attachments/assets/cc921748-39f4-4fe8-ad7f-96a3215040c2" width="600"/><br/>
-  <img src="https://github.com/user-attachments/assets/73369335-8324-449d-beb4-e1d43637febe" width="600"/><br/>
-  <img src="https://github.com/user-attachments/assets/bcbd77bc-7bd4-4988-9feb-a4da6648e77d" width="600"/><br/>
-  <img src="https://github.com/user-attachments/assets/a7a5c8f0-07f1-418c-b3fb-f57f9c548982" width="600"/><br/>
-  <img src="https://github.com/user-attachments/assets/419b4303-fe1d-4f5f-b1d5-504f9ec7b89a" width="600"/><br/>
-  <img src="https://github.com/user-attachments/assets/322abc7b-8e4d-490a-ac45-ee09d2ad3251" width="600"/>
+  <img width="48%" src="https://github.com/user-attachments/assets/8d9152c8-d015-4ad5-892a-5b7f7b411ec9" />
+  <img width="48%" src="https://github.com/user-attachments/assets/cc921748-39f4-4fe8-ad7f-96a3215040c2" />
+  <img width="48%" src="https://github.com/user-attachments/assets/73369335-8324-449d-beb4-e1d43637febe" />
+  <img width="48%" src="https://github.com/user-attachments/assets/bcbd77bc-7bd4-4988-9feb-a4da6648e77d" />
+  <img width="48%" src="https://github.com/user-attachments/assets/a7a5c8f0-07f1-418c-b3fb-f57f9c548982" />
+  <img width="48%" src="https://github.com/user-attachments/assets/419b4303-fe1d-4f5f-b1d5-504f9ec7b89a" />
+  <img width="48%" src="https://github.com/user-attachments/assets/322abc7b-8e4d-490a-ac45-ee09d2ad3251" />
 </p>
+
 </details>
+
 
 
 ## 💡 트러블 슈팅 (Troubleshooting & Solutions)
