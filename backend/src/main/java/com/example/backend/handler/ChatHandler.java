@@ -11,7 +11,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component   // spring에서 beand 을 의미 , 의존성 주입을 통해 다른 컴포넌트와 상호작용
+@Component   // spring에서 bean 을 의미 , 의존성 주입을 통해 다른 컴포넌트와 상호작용
 @Log4j2      // 선언한 클래스에서 log라는 이름으로 logger 객체 자동 생성
 public class ChatHandler extends TextWebSocketHandler {
     private static List<WebSocketSession> list = new ArrayList<WebSocketSession>();
