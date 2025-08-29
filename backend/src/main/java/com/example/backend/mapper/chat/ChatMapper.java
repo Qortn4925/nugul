@@ -238,4 +238,5 @@ public interface ChatMapper {
                 where roomid = #{roomId}
             """)
     int updateDeltedByRoomIdAndMemberId(String roomId, String memberId);
+
 }

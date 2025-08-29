@@ -141,4 +141,12 @@ public class ChatService {
 
         return cnt == 1;
     }
+
+    // 채팅방 나가기
+    public boolean exitChatRoom(String roomId, String memberId) {
+
+       int cnt = mapper.updateDeltedByRoomIdAndMemberId(roomId, memberId);
+
+       return  cnt ==1;
+    }
 }
