@@ -77,7 +77,7 @@ export function ChatList() {
 
   const removeChatRoom = (roomId, id) => {
     axios
-      .delete("/api/chat/delete/" + roomId, {
+      .post("/api/chat/post/" + roomId, {},{
         params: {
           memberId: id,
         },

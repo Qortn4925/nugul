@@ -97,10 +97,6 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
       await loadInitialMessages();
       await handleSetData();
 
-      // if (chatBoxRef.current) {
-      //   chatBoxRef.current.scrollTop =
-      //     chatBoxRef.current.scrollHeight - chatBoxRef.current.clientHeight;
-      // }
     };
 
     initializeData();
@@ -299,7 +295,7 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
 
   const removeChatRoom = (roomId, id) => {
     axios
-      .delete("/api/chat/delete/" + roomId, {
+      .post("/api/chat/post/" + roomId, {
         params: {
           memberId: id,
         },
