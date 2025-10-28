@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -78,10 +79,16 @@ public class ChatService {
     }
 
 
-    // 메시지 로딩
-    public List<ChatMessage> getMessageById(String roomId, Integer page) {
-        Integer offset = (page - 1) * 8;
-        return mapper.chatMessagePageByRoomId(roomId, offset);
+    //초기  메시지 로딩
+    public List<ChatMessage> getMessageById(String roomId) {
+
+        return mapper.initialChatMessageByRoomId(roomId);
+    }
+
+    // 이전 메시지 로딩
+    public List<ChatMessage> getPreviousMessageBySentAt(String roomId, LocalDateTime sentAtTime) {
+
+        return mapper.previousChatMessageBySentAt(roomId, sentAtTime);
     }
 
 
@@ -149,4 +156,6 @@ public class ChatService {
 
        return  cnt ==1;
     }
+
+
 }

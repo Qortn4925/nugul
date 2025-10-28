@@ -183,6 +183,8 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
   const loadInitialMessages = async () => {
     setIsloading(true);
     try {
+      console.log("초기 메시지 로딩")
+
       const response = await axios.get(
         `/api/chat/view/${realChatRoomId}/messages`,
         {
@@ -198,6 +200,7 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
       }
     } catch (error) {
       console.error("메시지 로딩 중 오류:", error);
+      console.log(message)
     } finally {
       setIsloading(false);
       setPage(page + 1);
@@ -218,6 +221,7 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
         {
           params: {
             page,
+            sentAt:message[0]?.sentAt
           },
         },
       );
@@ -234,7 +238,6 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
     } catch (error) {
       console.log("이전 메시지 로딩 중 오류 ", error, page);
     } finally {
-      console.log("실행 여부");
       const chatBox = chatBoxRef.current;
       const reach = chatBox.scrollHeight - chatBox.scrollHeight * 0.2;
       chatBoxRef.current.scrollTop = reach;

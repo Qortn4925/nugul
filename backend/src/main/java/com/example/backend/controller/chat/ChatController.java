@@ -13,6 +13,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -76,10 +77,16 @@ public class ChatController {
     @GetMapping("view/{roomId}/messages")
     @PreAuthorize("isAuthenticated()")
     public List<ChatMessage> getMessage(@PathVariable String roomId,
-                                        @RequestParam(value = "page", defaultValue = "1") Integer page) {
-        // 메시지 페이지네이션
-        return chatService.getMessageById(roomId, page);
-        // a, 8개 까지 보여줄 거임
+                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                        @RequestParam(required = false) String sentAt) {
+        LocalDateTime sentAtTime = sentAt != null ? LocalDateTime.parse(sentAt) : null;
+        // 초기 메시지
+        if (sentAtTime == null) {
+            return chatService.getMessageById(roomId);
+        }
+        else {
+            return chatService.getPreviousMessageBySentAt(roomId,sentAtTime);
+        }
 
     }
 
@@ -87,7 +94,7 @@ public class ChatController {
     @GetMapping("list")
     @PreAuthorize("isAuthenticated()")
     public List<ChatRoom> chatRoomList(@RequestParam(value = "memberId") String memberId,
-                                       @RequestParam(value = "type", defaultValue = "all") String type) {
+                                       @RequestParam(value = "type", defaultValue = "all") String type ) {
 
         return chatService.chatRoomList(memberId, type);
 
