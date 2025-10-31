@@ -129,7 +129,8 @@ public interface ChatMapper {
     @Select("""
                         select *
                         from chat_message
-                        where sent_At<#{sentAtTime}
+                        where roomId=#{roomId} AND
+                              sent_At<#{sentAtTime}
                         order by sent_at desc
                         limit 8
             """)
