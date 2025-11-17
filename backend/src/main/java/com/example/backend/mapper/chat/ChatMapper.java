@@ -4,6 +4,7 @@ import com.example.backend.dto.chat.ChatMessage;
 import com.example.backend.dto.chat.ChatRoom;
 import org.apache.ibatis.annotations.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -121,9 +122,19 @@ public interface ChatMapper {
                         from chat_message
                         where roomId=#{roomId}
                         order by id desc
-                        limit #{offset},8
+                        limit 8
             """)
-    List<ChatMessage> chatMessagePageByRoomId(String roomId, Integer offset);
+    List<ChatMessage> initialChatMessageByRoomId(String roomId);
+
+    @Select("""
+                        select *
+                        from chat_message
+                        where roomId=#{roomId} AND
+                              sent_At<#{sentAtTime}
+                        order by sent_at desc
+                        limit 8
+            """)
+    List<ChatMessage> previousChatMessageBySentAt(String roomId, LocalDateTime sentAtTime);
 
     @Delete("""
                     delete from chat_message
@@ -238,5 +249,6 @@ public interface ChatMapper {
                 where roomid = #{roomId}
             """)
     int updateDeltedByRoomIdAndMemberId(String roomId, String memberId);
+
 
 }

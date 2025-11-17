@@ -43,12 +43,23 @@ dependencies {
     implementation 'software.amazon.awssdk:s3:2.29.17'
     // 결제 검증 로직
     implementation 'com.github.iamport:iamport-rest-client-java:0.2.21'
+    //Junit 5 실행
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
 
-compileJava {
-    options.compilerArgs += ['--enable-preview']
+tasks.withType(JavaCompile) {
+    options.compilerArgs += '--enable-preview'
+}
+
+tasks.withType(Test) {
+    jvmArgs += '--enable-preview'
+}
+
+bootRun {
+    jvmArgs += '--enable-preview'
 }
