@@ -13,7 +13,9 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 
@@ -68,8 +70,6 @@ public class ChatController {
         //  chatroom 정보 조회
         ChatRoom chatRoom = chatService.chatRoomView(roomId, memberId);
         // 해당 채팅방의 메시지 정보 조회  , page
-//        List<ChatMessage> message = chatService.chatMessageView(roomId);
-//        chatRoom.setMessages(message);
         return chatRoom;
 
     }
@@ -77,16 +77,16 @@ public class ChatController {
     @GetMapping("view/{roomId}/messages")
     @PreAuthorize("isAuthenticated()")
     public List<ChatMessage> getMessage(@PathVariable String roomId,
-                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
                                         @RequestParam(required = false) String sentAt) {
-        LocalDateTime sentAtTime = sentAt != null ? LocalDateTime.parse(sentAt) : null;
+
         // 초기 메시지
-        if (sentAtTime == null) {
+        if (sentAt == null) {
             return chatService.getMessageById(roomId);
         }
-        else {
+        Instant sent = Instant.parse(sentAt);
+        LocalDateTime sentAtTime =LocalDateTime.ofInstant(sent, ZoneOffset.UTC);
             return chatService.getPreviousMessageBySentAt(roomId,sentAtTime);
-        }
+
 
     }
 

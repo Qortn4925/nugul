@@ -250,5 +250,13 @@ public interface ChatMapper {
             """)
     int updateDeltedByRoomIdAndMemberId(String roomId, String memberId);
 
-
+    @Update("""
+            UPDATE chatroom
+            SET 
+                buyer_read_at = CASE WHEN buyer_read_at = #{memberId} THEN NOW() ELSE buyer_read_at END,
+                writer_read_at = CASE WHEN writer_read_at = #{memberId} THEN NOW() ELSE writer_read_at END
+            WHERE roomid = #{roomId}
+    """)
+    void updateReadAt(@Param("roomId") String roomId,
+                      @Param("memberId") String memberId);
 }

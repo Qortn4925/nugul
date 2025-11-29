@@ -197,7 +197,6 @@ export function ChatList() {
                       onClick={() => {
                         setProductId(chat.productId);
                         setChatRoomId(chat.roomId);
-                        // localStorage.setItem("LocalProductId", chat.productId);
                         localStorage.setItem("LocalChatRoomId", chat.roomId);
                       }}
                     />

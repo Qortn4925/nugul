@@ -1,15 +1,20 @@
 package com.example.backend.config;
 
+import com.example.backend.Interceptor.MyChannelInterceptor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 @Configuration
+@RequiredArgsConstructor
 @EnableWebSocketMessageBroker   // 웹 소켓 서버를 사용하겟다는 설정
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
+    private final MyChannelInterceptor myChannelInterceptor;
 
     // stomp 클라이언트 생성 관련 코드
     @Override
@@ -18,8 +23,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/wschat") // 연결될 엔드포인트 ?
                 .setAllowedOriginPatterns("http://localhost:5173");
 
-//                .withSockJS();  // 버전 낮은 브라우저에서도 적용 가능
-// sockJS 쓸거면 , 그 http 붙여야 하는거 같음
 
 
     }
@@ -33,7 +36,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         // 해당 주소를 구독하고 있은 클라이언트 들에게 메시지 전달
         // 채팅방 번호로 바꾸면 되고
         registry.enableSimpleBroker("/room");
-
-
+    }
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        registration.interceptors(myChannelInterceptor );
     }
 }

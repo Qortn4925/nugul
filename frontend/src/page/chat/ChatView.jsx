@@ -48,32 +48,6 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
       connectHeaders: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-      onDisconnect: () => {
-        const date = new Date();
-
-        // 한국 시간으로 변환 (UTC+9)
-        const kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
-        // 시간 변환
-        axios.put("/api/chat/updatetime", {
-          roomId: realChatRoomId, // 현재 채팅방 ID
-          userId: id, // 현재 사용자 ID
-          leaveAt: kstDate, // 나간 시간
-        });
-      },
-
-      onConnect: () => {
-        client.subscribe("/room/" + realChatRoomId, function (message) {
-          const a = JSON.parse(message.body);
-          setMessage((prev) => [
-            ...prev,
-            { sender: a.sender, content: a.content, sentAt: a.sentAt },
-          ]);
-          // 스크롤을 하단으로 이동
-          if (chatBoxRef.current) {
-            chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
-          }
-        });
-      },
       onStompError: (err) => {
         console.error(err);
       },
@@ -83,7 +57,44 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
     });
     setStompClient(client);
     client.activate();
+
+    return () => { client.deactivate(); };
   }, []);
+
+ useEffect(() => {
+   if(!stompClient || !stompClient.connected) return;
+
+   if(stompClient.active) {
+     stompClient.publish({
+       destination: "/send/chat/updateReadAt",
+       body: JSON.stringify({
+         roomId:roomId,
+         memberId:id,
+       })
+     })
+   }
+
+   const subscription = stompClient.subscribe(
+     `/room/${realChatRoomId}`,
+     (message) => {
+       const a = JSON.parse(message.body);
+       setMessage((prev) => [
+         ...prev,
+         { sender: a.sender, content: a.content, sentAt: a.sentAt },
+       ]);
+       // 스크롤 하단 이동 (메시지 수신 시 처리)
+       if (chatBoxRef.current) {
+         chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+       }
+     },
+     { memberId: id, roomId: realChatRoomId }
+   );
+
+   return () => {
+     subscription.unsubscribe(); // 컴포넌트 언마운트 시 자동 UNSUBSCRIBE
+   };
+ }, [stompClient,realChatRoomId]);
+
 
   // 의존성에  message 넣어야함
   useEffect(() => {
@@ -96,7 +107,6 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
     const initializeData = async () => {
       await loadInitialMessages();
       await handleSetData();
-
     };
 
     initializeData();
@@ -159,24 +169,33 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
   }
 
   function sendMessage(sender, content) {
-    const date = new Date();
+    const date = new Date()
     // 한국 시간으로 변환 (UTC+9)
-    const kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+    const sentAt =  date.toISOString().slice(0,19);
     // 시간 변환
-
+    const kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
     const a = {
       sender: sender,
       content: content,
-      sentAt: kstDate.toISOString().slice(0, 19),
+      sentAt: sentAt,
     };
     if (stompClient && stompClient.connected)
       stompClient.publish({
         destination: "/send/" + realChatRoomId,
         body: JSON.stringify(a),
       });
-
+    setMessage((prev) => [
+      ...prev,
+      {
+        sender: sender,
+        content: content,
+        sentAt: kstDate.toISOString().slice(0,19),
+      },
+    ]);
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
     setClientMessage("");
-    console.log(a.sentAt);
   }
 
   // 초기 메세지 로딩
@@ -187,12 +206,16 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
 
       const response = await axios.get(
         `/api/chat/view/${realChatRoomId}/messages`,
-        {
-          params: { page },
-        },
       );
       const initialMessages = response.data || [];
-      setMessage(initialMessages.reverse());
+      const processMessage=initialMessages.map(message => {
+         const kstDate = new Date(message.sentAt+'Z');
+         return {
+           ...message,
+           sentAt:kstDate,
+         }
+      })
+      setMessage(processMessage.reverse());
 
       // 스크롤을 하단으로 이동
       if (chatBoxRef.current) {
@@ -203,7 +226,6 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
       console.log(message)
     } finally {
       setIsloading(false);
-      setPage(page + 1);
     }
   };
 
