@@ -253,9 +253,9 @@ public interface ChatMapper {
     @Update("""
             UPDATE chatroom
             SET 
-                buyer_read_at = CASE WHEN buyer_read_at = #{memberId} THEN NOW() ELSE buyer_read_at END,
-                writer_read_at = CASE WHEN writer_read_at = #{memberId} THEN NOW() ELSE writer_read_at END
-            WHERE roomid = #{roomId}
+                buyer_read_at = CASE WHEN buyer = #{memberId} THEN NOW() ELSE buyer_read_at END,
+                writer_read_at = CASE WHEN writer = #{memberId} THEN NOW() ELSE writer_read_at END
+            WHERE roomId = #{roomId}
     """)
     void updateReadAt(@Param("roomId") String roomId,
                       @Param("memberId") String memberId);

@@ -125,9 +125,10 @@ public class ChatController {
     }
 
     @MessageMapping("/chat/updateReadAt")
-    public void updateReadAt(ChatMessage chatMessage) {
-
-        chatService.updateReadAt(chatMessage.getRoomId(),chatMessage.getSender());
+    public void updateReadAt( ChatMessage chatMessage) {
+        System.out.println(" abc");
         System.out.println(chatMessage.getSender()+"보낸사람" +chatMessage.getRoomId()+"방 번호");
+        chatService.updateReadAt(chatMessage.getRoomId(),chatMessage.getSender());
+
     }
 }
