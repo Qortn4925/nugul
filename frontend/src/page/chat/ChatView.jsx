@@ -58,21 +58,15 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
     setStompClient(client);
     client.activate();
 
-    return () => { client.deactivate(); };
+    return () => {
+        console.log("언마운트 실행확인")
+      client.deactivate(); };
   }, []);
 
  useEffect(() => {
    if(!stompClient || !stompClient.connected) return;
 
-   if(stompClient.active) {
-     stompClient.publish({
-       destination: "/send/chat/updateReadAt",
-       body: JSON.stringify({
-         roomId:roomId,
-         memberId:id,
-       })
-     })
-   }
+    updateReadAt(stompClient,realChatRoomId,id);
 
    const subscription = stompClient.subscribe(
      `/room/${realChatRoomId}`,
@@ -91,6 +85,8 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
    );
 
    return () => {
+    updateReadAt(stompClient,realChatRoomId,id);
+
      subscription.unsubscribe(); // 컴포넌트 언마운트 시 자동 UNSUBSCRIBE
    };
  }, [stompClient,realChatRoomId]);
@@ -228,6 +224,22 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
       setIsloading(false);
     }
   };
+
+  const updateReadAt= (stompClient,roomId ,id) => {
+    console.log("readat 시작");
+    console.log("stomp", stompClient, roomId, id);
+    if(stompClient.active) {
+      console.log("동작 확인");
+      stompClient.publish({
+        destination: "/send/chat/updateReadAt",
+        body: JSON.stringify({
+          roomId:roomId,
+          sender:id,
+        })
+      })
+    }
+    console.log(" readAt 종료");
+  }
 
   const loadPreviousMessage = async () => {
     // 마지막 메시지의 갯수가 8개가 아니면 마지막으로 간주 해서 ,  요청을 보내지 않음

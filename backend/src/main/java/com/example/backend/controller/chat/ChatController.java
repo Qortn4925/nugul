@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -123,4 +124,10 @@ public class ChatController {
         return chatService.getImage(memberId);
     }
 
+    @MessageMapping("/chat/updateReadAt")
+    public void updateReadAt(ChatMessage chatMessage) {
+
+        chatService.updateReadAt(chatMessage.getRoomId(),chatMessage.getSender());
+        System.out.println(chatMessage.getSender()+"보낸사람" +chatMessage.getRoomId()+"방 번호");
+    }
 }
