@@ -48,6 +48,9 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
       connectHeaders: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
+      onConnect: () => {
+        setStompClient(client);
+      },
       onStompError: (err) => {
         console.error(err);
       },
@@ -55,17 +58,16 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
       heartbeatOutgoing: 5000,
       reconnectDelay: 1000,
     });
-    setStompClient(client);
     client.activate();
 
     return () => {
-        console.log("언마운트 실행확인")
-      client.deactivate(); };
+      console.log("언마운트 실행확인")
+      client.deactivate();
+    };
   }, []);
 
  useEffect(() => {
    if(!stompClient || !stompClient.connected) return;
-
     updateReadAt(stompClient,realChatRoomId,id);
 
    const subscription = stompClient.subscribe(
@@ -228,7 +230,7 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
   const updateReadAt= (stompClient,roomId ,id) => {
     console.log("readat 시작");
     console.log("stomp", stompClient, roomId, id);
-    if(stompClient.active) {
+    if(stompClient) {
       console.log("동작 확인");
       stompClient.publish({
         destination: "/send/chat/updateReadAt",
