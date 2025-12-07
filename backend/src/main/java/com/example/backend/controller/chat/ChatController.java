@@ -123,10 +123,10 @@ public class ChatController {
     public String getImage(@RequestParam String memberId) {
         return chatService.getImage(memberId);
     }
-
+    // 구독과, 구독 해제시  redis에 시간 정보를 업데이트
     @MessageMapping("/chat/updateReadAt")
     public void updateReadAt( ChatMessage chatMessage) {
-        chatService.updateReadAt(chatMessage.getRoomId(),chatMessage.getSender());
+        chatService.saveReadAtToRedis(chatMessage.getRoomId(),chatMessage.getSender());
 
     }
 }

@@ -1,6 +1,5 @@
 package com.example.backend.config;
 
-import com.example.backend.Interceptor.MyChannelInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
@@ -14,7 +13,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker   // 웹 소켓 서버를 사용하겟다는 설정
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
-    private final MyChannelInterceptor myChannelInterceptor;
+
 
     // stomp 클라이언트 생성 관련 코드
     @Override
@@ -37,8 +36,5 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         // 채팅방 번호로 바꾸면 되고
         registry.enableSimpleBroker("/room");
     }
-    @Override
-    public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(myChannelInterceptor );
-    }
+
 }
