@@ -253,10 +253,11 @@ public interface ChatMapper {
     @Update("""
             UPDATE chatroom
             SET 
-                buyer_read_at = CASE WHEN buyer = #{memberId} THEN NOW() ELSE buyer_read_at END,
-                writer_read_at = CASE WHEN writer = #{memberId} THEN NOW() ELSE writer_read_at END
+                buyer_read_at = CASE WHEN buyer = #{memberId} THEN #{readAt} ELSE buyer_read_at END,
+                writer_read_at = CASE WHEN writer = #{memberId} THEN #{readAt} ELSE writer_read_at END
             WHERE roomId = #{roomId}
     """)
     void updateReadAt(@Param("roomId") String roomId,
-                      @Param("memberId") String memberId);
+                      @Param("memberId") String memberId,
+                      @Param ("readAt") LocalDateTime readAt);
 }

@@ -3,9 +3,11 @@ package com.example.backend.service.chat;
 import com.example.backend.dto.chat.ChatMessage;
 import com.example.backend.dto.chat.ChatRoom;
 import com.example.backend.mapper.chat.ChatMapper;
+import com.example.backend.service.redis.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +27,7 @@ public class ChatService {
 
     private final ChatMapper mapper;
 
-    private final RedisTemplate<String, Object> redisTemplate;
+    private  final RedisService redisService;
 
     public boolean creatChatRoom(ChatRoom chatRoom) {
         int cnt = mapper.createChatRoom(chatRoom);
@@ -99,16 +101,8 @@ public class ChatService {
        return  cnt ==1;
     }
 
-
-
+    // redis에  읽은 시간 정보 업데이트
     public void saveReadAtToRedis(String roomId, String memberId) {
-        System.out.println(" 12312312" );
-        String key ="read_at" +roomId ;
-        String now =    LocalDateTime.now().toString();
-        // redis에  시간 업데이트 하기
-        redisTemplate.opsForHash().put(key,memberId,now);
-
-        System.out.println("redisTemplate = " + redisTemplate);
-
+        redisService.updateReadAt(roomId, memberId);
     }
 }
