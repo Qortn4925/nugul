@@ -4,6 +4,7 @@ package com.example.backend.service.redis;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RedisService {
     private final RedisTemplate<String, Object> redisTemplate;
+    private final SimpMessagingTemplate messagingTemplate;
 
     public void updateReadAt(String roomId, String memberId) {
         String readAtKey = "chat:readAt:" + roomId;
@@ -85,4 +87,23 @@ public class RedisService {
 
         return count != null ? count : 0L;
     }
+
+    public void notifyUnreadCountToOtherUsers(String roomId, String sender, String content) {
+        Map<Object, Object> readAtMap = getReadAtMap(roomId);
+        readAtMap.entrySet().stream()
+                .filter(entry -> !entry.getKey().equals(sender)) // 내 아이디 제외
+                .forEach(entry -> {
+                    String otherUserId = entry.getKey().toString();
+                    String otherReadAt = entry.getValue().toString();
+                    Long unreadCount = getCountUnReadMessage(roomId, otherReadAt);
+
+                    Map<String, Object> payload = Map.of(
+                            "roomId", roomId,
+                            "lastMessage", content,
+                            "unreadCount", unreadCount
+                    );
+                    messagingTemplate.convertAndSendToUser(otherUserId ,"/queue/room-updates",payload);
+                });
+
+     }
 }

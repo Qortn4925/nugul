@@ -33,8 +33,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.setApplicationDestinationPrefixes("/send");
 
         // 해당 주소를 구독하고 있은 클라이언트 들에게 메시지 전달
-        // 채팅방 번호로 바꾸면 되고
-        registry.enableSimpleBroker("/room");
+        registry.enableSimpleBroker("/room","/queue");
+
+        registry.setUserDestinationPrefix("/user");
     }
 
 }

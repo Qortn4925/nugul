@@ -80,6 +80,10 @@ public class ChatService {
         redisService.updateLastMessage(chatMessage.getRoomId(),chatMessage.getContent());
         redisService.saveMessageTimestamp(chatMessage.getRoomId());
         mapper.insertMessage(chatMessage);
+
+        // 상대한테 이벤트 발송
+       redisService.notifyUnreadCountToOtherUsers(chatMessage.getRoomId(),chatMessage.getSender(),chatMessage.getContent());
+
     }
 
 
