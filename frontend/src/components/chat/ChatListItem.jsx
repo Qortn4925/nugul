@@ -71,6 +71,7 @@ export function ChatListItem({ chat, onDelete, onClick }) {
             <Card.Footer pl={0}>
               <Text fontSize="md" isTruncated noOfLines={1} whiteSpace="nowrap">
                 {chat.nickname != null ? chat.nickname : "탈퇴한 회원"}
+                {chat.lastMessage}
               </Text>
             </Card.Footer>
           </Box>

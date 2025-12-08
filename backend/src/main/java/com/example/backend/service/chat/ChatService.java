@@ -5,14 +5,17 @@ import com.example.backend.dto.chat.ChatRoom;
 import com.example.backend.mapper.chat.ChatMapper;
 import com.example.backend.service.redis.RedisService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -45,16 +48,41 @@ public class ChatService {
 
 
     public List<ChatRoom> chatRoomList(String memberId, String type) {
-        //db 수정해야함??
-        // 상태 가져오기
+
         List<ChatRoom> chatRoomList = mapper.chatRoomListByMemberId(memberId, type);
 
+        List<Integer> roomIds= chatRoomList.stream().map(ChatRoom::getRoomId).toList();
+
+        // redis
+        Map<String, String> lastMessages = redisService.getLastMessages(roomIds);
+        Map<String,Map<String,String>> readAtMap=redisService.getReadAtMapForRooms(roomIds);
+        for (ChatRoom room : chatRoomList) {
+            // 마지막 메시지
+            String convertRoomId = String.valueOf(room.getRoomId());
+            room.setLastMessage(lastMessages.get(convertRoomId));
+            // 안읽은 메시지 수 계산
+            Map<String, String> roomReadAt = readAtMap.get(convertRoomId);
+            if (roomReadAt != null) {
+                String readAtStr = roomReadAt.get(memberId);
+                Instant readAt = readAtStr != null ? Instant.parse(readAtStr) : Instant.EPOCH;
+
+                long unreadCount = redisService.getMessageTimestamps(convertRoomId).stream()
+                        .filter(ts -> Instant.parse(ts).isAfter(readAt))
+                        .count();
+
+                room.setUnreadCount((int) unreadCount);
+            } else {
+                room.setUnreadCount(0);
+            }
+        }
 
         return chatRoomList;
     }
 
-    public void insertMessage(ChatMessage chatMessage) {
 
+    public void insertMessage(ChatMessage chatMessage) {
+        redisService.updateLastMessage(chatMessage.getRoomId(),chatMessage.getContent());
+        redisService.saveMessageTimestamp(chatMessage.getRoomId());
         mapper.insertMessage(chatMessage);
     }
 

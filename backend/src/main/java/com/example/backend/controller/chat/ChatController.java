@@ -36,7 +36,6 @@ public class ChatController {
 
         // 보낸 메시지 저장시킬 방 번호 입력
         chatMessage.setRoomId(roomId);
-
         chatService.insertMessage(chatMessage);
         return chatMessage;
     }
@@ -84,9 +83,10 @@ public class ChatController {
         if (sentAt == null) {
             return chatService.getMessageById(roomId);
         }
-        Instant sent = Instant.parse(sentAt);
-        LocalDateTime sentAtTime =LocalDateTime.ofInstant(sent, ZoneOffset.UTC);
-            return chatService.getPreviousMessageBySentAt(roomId,sentAtTime);
+        // offset 없는 시간 처리
+        LocalDateTime ldt = LocalDateTime.parse(sentAt); // "2025-11-27T17:55:33"
+        Instant sent = ldt.toInstant(ZoneOffset.UTC);    // UTC 기준 Instant 변환
+            return chatService.getPreviousMessageBySentAt(roomId,ldt);
 
 
     }

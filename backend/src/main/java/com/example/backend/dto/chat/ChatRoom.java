@@ -20,6 +20,9 @@ public class ChatRoom {
     private boolean iswriter_deleted;
     private boolean isbuyer_deleted;
 
+    private String lastMessage;
+    private int unreadCount;
+
 
     public Boolean getIswriter_deleted() {
         return iswriter_deleted;

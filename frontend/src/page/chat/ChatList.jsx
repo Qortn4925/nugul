@@ -114,7 +114,7 @@ export function ChatList() {
           flexShrink={0}
           overflow="hidden"
           style={{
-            transition: "width 0.3s ease-in-out", // 부드러운 전환 효과
+            transition: "width 0.3s ease-in-out",
           }}
         >
           <HStack w={"100%"} gap={3} mb={3} align="center">
