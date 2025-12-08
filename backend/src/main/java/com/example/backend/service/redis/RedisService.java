@@ -60,27 +60,29 @@ public class RedisService {
         return map;
     }
 
-    public Map<String, Map<String, String>> getReadAtMapForRooms(List<Integer> roomIds) {
-        Map<String, Map<String, String>> result = new HashMap<>();
+    public  Map<String, String> getReadAtMapForRooms(List<Integer> roomIds ,String memberId) {
+        Map<String, String> result = new HashMap<>();
         for (Integer roomId : roomIds) {
-            String key = "chat:readAt:" + roomId;
-            Map<Object, Object> map = redisTemplate.opsForHash().entries(key);
-            if (!map.isEmpty()) {
-                Map<String, String> stringMap = map.entrySet().stream()
-                        .collect(Collectors.toMap(
-                                e -> e.getKey().toString(),
-                                e -> e.getValue().toString()
-                        ));
-                result.put(roomId.toString(), stringMap);
+            String convertId= String.valueOf(roomId);
+
+            String key = "chat:readAt:" + convertId;
+            Object readAt = redisTemplate.opsForHash().get(key, memberId);
+
+            if (readAt != null) {
+                result.put(String.valueOf(roomId), readAt.toString());
             }
         }
         return result;
     }
 
     // 메시지 timestamp 리스트 가져오기
-    public List<String> getMessageTimestamps(String roomId) {
-        String key = "chat:messageTimestamps:" + roomId;
-        return redisTemplate.opsForList().range(key, 0, -1)
-                .stream().map(Object::toString).toList();
+    public Long  getCountUnReadMessage(String roomId,String readAt) {
+        String key = "chat:messages:" + roomId;
+        // Redis의 리스트 길이
+        double readTimestamp = Instant.parse(readAt).toEpochMilli();
+        // readAt 이후의 모든 메시지 개수
+        Long count = redisTemplate.opsForZSet().count(key, readTimestamp, Double.POSITIVE_INFINITY);
+
+        return count != null ? count : 0L;
     }
 }

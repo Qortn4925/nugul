@@ -20,6 +20,7 @@ import java.util.Map;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class ChatService {
 
     @Value("${image.src.prefix}")
@@ -55,22 +56,17 @@ public class ChatService {
 
         // redis
         Map<String, String> lastMessages = redisService.getLastMessages(roomIds);
-        Map<String,Map<String,String>> readAtMap=redisService.getReadAtMapForRooms(roomIds);
+        Map<String, String> readAtMap=redisService.getReadAtMapForRooms(roomIds,memberId);
         for (ChatRoom room : chatRoomList) {
             // 마지막 메시지
             String convertRoomId = String.valueOf(room.getRoomId());
             room.setLastMessage(lastMessages.get(convertRoomId));
             // 안읽은 메시지 수 계산
-            Map<String, String> roomReadAt = readAtMap.get(convertRoomId);
+            String roomReadAt = readAtMap.get(convertRoomId);
             if (roomReadAt != null) {
-                String readAtStr = roomReadAt.get(memberId);
-                Instant readAt = readAtStr != null ? Instant.parse(readAtStr) : Instant.EPOCH;
-
-                long unreadCount = redisService.getMessageTimestamps(convertRoomId).stream()
-                        .filter(ts -> Instant.parse(ts).isAfter(readAt))
-                        .count();
-
-                room.setUnreadCount((int) unreadCount);
+                long unReadCount=redisService.getCountUnReadMessage(convertRoomId, roomReadAt);
+                log.info(unReadCount + "unReadCoutn");
+                room.setUnreadCount((int) unReadCount);
             } else {
                 room.setUnreadCount(0);
             }

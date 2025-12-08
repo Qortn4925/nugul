@@ -1,4 +1,4 @@
-import { Box, Card, HStack, Image, Text } from "@chakra-ui/react";
+import {Badge, Box, Card, HStack, Image, Text} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -70,10 +70,14 @@ export function ChatListItem({ chat, onDelete, onClick }) {
             </Card.Body>
             <Card.Footer pl={0}>
               <Text fontSize="md" isTruncated noOfLines={1} whiteSpace="nowrap">
-                {chat.nickname != null ? chat.nickname : "탈퇴한 회원"}
                 {chat.lastMessage}
               </Text>
+              {chat.unreadCount > 0 && (
+                <Badge colorPalette="red">
+                  {chat.unreadCount}
+                </Badge>)}
             </Card.Footer>
+
           </Box>
         </HStack>
       </Card.Root>
