@@ -101,6 +101,20 @@ export function ChatList() {
       });
   };
 
+  const alertUpdateRoom= (roomId,lastMessage,unreadCount)=> {
+
+    setChatList(prev => {
+      const updated = prev.map(room => {
+        const isMatch = String(room.roomId) === String(roomId);
+
+        return isMatch
+          ? { ...room, lastMessage, unreadCount }
+          : room;
+      });
+      return updated;
+    });
+  };
+
   return (
     <Box h="85vh" overflow="hidden">
       <HStack h="100vh" spacing={0}>
@@ -136,8 +150,6 @@ export function ChatList() {
             <Button
               w="30%"
               onClick={() => {
-                // setChatRoomId(-1);
-                // setProductId(-1);
                 setSearchParams({ type: "buy" });
                 setStatus("Buy");
               }}
@@ -219,6 +231,7 @@ export function ChatList() {
               key={chatRoomId}
               chatRoomId={chatRoomId}
               onDelete={() => removeChatRoom(chatRoomId, id)}
+              onRoomUpdate={alertUpdateRoom}
             />
           )}
         </Box>

@@ -17,7 +17,7 @@ import { ProductDetailDrawer } from "../../components/chat/ProductDetailDrawer.j
 import { useTheme } from "../../components/context/ThemeProvider.jsx";
 import SockJS from 'sockjs-client';
 
-export function ChatView({ chatRoomId, onDelete, statusControl }) {
+export function ChatView({ chatRoomId, onDelete, statusControl ,onRoomUpdate }) {
   const scrollRef = useRef(null);
   const chatBoxRef = useRef(null);
   const [message, setMessage] = useState([]);
@@ -66,7 +66,6 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
       client.deactivate();
     };
   }, []);
-
  useEffect(() => {
    if(!stompClient || !stompClient.connected) return;
     updateReadAt(stompClient,realChatRoomId,id);
@@ -90,6 +89,7 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
       `/user/queue/room-updates`,(msg)=>{
         const update =JSON.parse(msg.body);
         console.log(update ,"알람 구독확인");
+        onRoomUpdate(update.roomId,update.lastMessage,update.unreadCount)
       }
     );
 
