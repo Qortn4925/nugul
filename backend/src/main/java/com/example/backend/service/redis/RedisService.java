@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class RedisService {
     private final RedisTemplate<String, Object> redisTemplate;
     private final SimpMessagingTemplate messagingTemplate;
@@ -96,13 +97,13 @@ public class RedisService {
                     String otherUserId = entry.getKey().toString();
                     String otherReadAt = entry.getValue().toString();
                     Long unreadCount = getCountUnReadMessage(roomId, otherReadAt);
-
                     Map<String, Object> payload = Map.of(
                             "roomId", roomId,
                             "lastMessage", content,
                             "unreadCount", unreadCount
                     );
-                    messagingTemplate.convertAndSendToUser(otherUserId ,"/queue/room-updates",payload);
+                    messagingTemplate.convertAndSendToUser(otherUserId, "/queue/room-updates", payload);
+                    log.info(otherUserId+payload.toString()+"작동확인");
                 });
 
      }

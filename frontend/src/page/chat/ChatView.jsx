@@ -15,6 +15,7 @@ import { ReviewModal } from "../../components/review/ReviewModal.jsx";
 import { Avatar } from "../../components/ui/avatar.jsx";
 import { ProductDetailDrawer } from "../../components/chat/ProductDetailDrawer.jsx";
 import { useTheme } from "../../components/context/ThemeProvider.jsx";
+import SockJS from 'sockjs-client';
 
 export function ChatView({ chatRoomId, onDelete, statusControl }) {
   const scrollRef = useRef(null);
@@ -44,7 +45,7 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
   //  stomp 객체 생성 및, 연결
   useEffect(() => {
     const client = new Client({
-      brokerURL: "ws://localhost:8080/wschat",
+      webSocketFactory: () => new SockJS(`http://localhost:8080/wschat?userId=${encodeURIComponent(id)}`),
       connectHeaders: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -85,11 +86,18 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
      },
      { memberId: id, roomId: realChatRoomId }
    );
+    const alertSubscription = stompClient.subscribe(
+      `/user/queue/room-updates`,(msg)=>{
+        const update =JSON.parse(msg.body);
+        console.log(update ,"알람 구독확인");
+      }
+    );
 
    return () => {
     updateReadAt(stompClient,realChatRoomId,id);
 
      subscription.unsubscribe(); // 컴포넌트 언마운트 시 자동 UNSUBSCRIBE
+     alertSubscription.unsubscribe();
    };
  }, [stompClient,realChatRoomId]);
 
@@ -200,7 +208,6 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
   const loadInitialMessages = async () => {
     setIsloading(true);
     try {
-      console.log("초기 메시지 로딩")
 
       const response = await axios.get(
         `/api/chat/view/${realChatRoomId}/messages`,
@@ -228,8 +235,6 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
   };
 
   const updateReadAt= (stompClient,roomId ,id) => {
-    console.log("readat 시작");
-    console.log("stomp", stompClient, roomId, id);
     if(stompClient) {
       console.log("동작 확인");
       stompClient.publish({
@@ -240,7 +245,6 @@ export function ChatView({ chatRoomId, onDelete, statusControl }) {
         })
       })
     }
-    console.log(" readAt 종료");
   }
 
   const loadPreviousMessage = async () => {

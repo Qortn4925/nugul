@@ -14,14 +14,14 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 
-
     // stomp 클라이언트 생성 관련 코드
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // stomp 접속 주소 url = ws://localhost:8080/ws-chat, 프로토콜이 http가 아니다!
         registry.addEndpoint("/wschat") // 연결될 엔드포인트 ?
-                .setAllowedOriginPatterns("http://localhost:5173");
-
+                .setHandshakeHandler(new CustomHandshakeHandler())
+                .setAllowedOriginPatterns("http://localhost:5173")
+                .withSockJS();
 
 
     }
