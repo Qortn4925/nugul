@@ -82,6 +82,9 @@ export function ChatView({ chatRoomId, onDelete, statusControl ,onRoomUpdate }) 
        if (chatBoxRef.current) {
          chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
        }
+      //현재방 읽음처리
+       updateReadAt(stompClient,realChatRoomId,id);
+
      },
      { memberId: id, roomId: realChatRoomId }
    );

@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ import java.util.Map;
 @Slf4j
 public class ChatService {
 
+    private final SimpMessagingTemplate simpMessagingTemplate;
     @Value("${image.src.prefix}")
     String imageSrcPrefix;
 
@@ -32,6 +34,7 @@ public class ChatService {
     private final ChatMapper mapper;
 
     private  final RedisService redisService;
+    private final SimpMessagingTemplate messagingTemplate;
 
     public boolean creatChatRoom(ChatRoom chatRoom) {
         int cnt = mapper.createChatRoom(chatRoom);
@@ -132,5 +135,14 @@ public class ChatService {
     // redis에  읽은 시간 정보 업데이트
     public void saveReadAtToRedis(String roomId, String memberId) {
         redisService.updateReadAt(roomId, memberId);
+        long unreadCount = 0L;
+        String lastMessage=redisService.getLastMessage(roomId);
+
+        Map<String, Object> payload = Map.of(
+                "roomId", roomId,
+                "lastMessage", lastMessage,
+                "unreadCount", unreadCount
+        );
+        messagingTemplate.convertAndSendToUser(memberId, "/queue/room-updates", payload);
     }
 }
